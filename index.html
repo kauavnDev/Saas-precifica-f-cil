@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PrecificaFácil — Descubra quanto cobrar</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+  body { background: #0a0a0f; color: #fff; font-family: system-ui, -apple-system, sans-serif; }
+  .glow { box-shadow: 0 0 40px rgba(139, 92, 246, 0.4); }
+  input[type=number]::-webkit-outer-spin-button,
+  input[type=number]::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+</style>
+</head>
+<body class="min-h-screen">
+
+<!-- HERO -->
+<section class="px-6 pt-12 pb-8 max-w-2xl mx-auto text-center">
+  <div class="inline-block px-3 py-1 rounded-full bg-purple-500/20 text-purple-300 text-xs font-semibold mb-4">
+    🚀 GRÁTIS • SEM CADASTRO
+  </div>
+  <h1 class="text-4xl font-black leading-tight mb-3">
+    Descubra <span class="text-purple-400">quanto cobrar</span> de verdade
+  </h1>
+  <p class="text-gray-400 text-base">
+    Calculadora inteligente para freelancers, MEIs e autônomos. Pare de cobrar barato e quebrar no fim do mês.
+  </p>
+</section>
+
+<!-- CALCULADORA -->
+<section class="px-6 pb-10 max-w-2xl mx-auto">
+  <div class="bg-gradient-to-b from-gray-900 to-gray-950 border border-gray-800 rounded-2xl p-6 glow">
+
+    <h2 class="text-lg font-bold mb-4 flex items-center gap-2">💰 Seus custos</h2>
+
+    <div class="space-y-4">
+      <div>
+        <label class="text-sm text-gray-400 block mb-1">Custos fixos mensais (R$)</label>
+        <input id="custos" type="number" value="1500" class="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-3 text-white text-lg focus:outline-none focus:border-purple-500">
+      </div>
+
+      <div>
+        <label class="text-sm text-gray-400 block mb-1">Horas trabalhadas por mês</label>
+        <input id="horas" type="number" value="160" class="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-3 text-white text-lg focus:outline-none focus:border-purple-500">
+      </div>
+
+      <div>
+        <label class="text-sm text-gray-400 block mb-1">Impostos e taxas (%)</label>
+        <input id="impostos" type="number" value="10" class="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-3 text-white text-lg focus:outline-none focus:border-purple-500">
+      </div>
+
+      <div>
+        <label class="text-sm text-gray-400 block mb-1">Lucro desejado por mês (R$)</label>
+        <input id="lucro" type="number" value="2000" class="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-3 text-white text-lg focus:outline-none focus:border-purple-500">
+      </div>
+    </div>
+
+    <button onclick="calcular()" class="w-full mt-6 bg-purple-600 hover:bg-purple-500 transition font-bold py-4 rounded-xl text-lg">
+      Calcular meu preço ⚡
+    </button>
+
+    <!-- RESULTADO -->
+    <div id="resultado" class="hidden mt-6 pt-6 border-t border-gray-800 space-y-3">
+      <div class="flex justify-between items-center bg-gray-800/50 rounded-lg p-4">
+        <span class="text-gray-400 text-sm">Preço MÍNIMO/hora</span>
+        <span id="p_min" class="text-xl font-bold text-red-400">R$ 0</span>
+      </div>
+      <div class="flex justify-between items-center bg-purple-500/10 border border-purple-500/30 rounded-lg p-4">
+        <span class="text-purple-300 text-sm font-semibold">Preço IDEAL/hora</span>
+        <span id="p_ideal" class="text-2xl font-black text-purple-300">R$ 0</span>
+      </div>
+      <div class="flex justify-between items-center bg-gray-800/50 rounded-lg p-4">
+        <span class="text-gray-400 text-sm">Preço PREMIUM/hora</span>
+        <span id="p_premium" class="text-xl font-bold text-green-400">R$ 0</span>
+      </div>
+
+      <button onclick="copiar()" class="w-full mt-2 bg-gray-800 hover:bg-gray-700 py-3 rounded-lg text-sm">
+        📋 Copiar resultado
+      </button>
+    </div>
+  </div>
+
+  <!-- UPGRADE CTA -->
+  <div class="mt-6 bg-gradient-to-r from-purple-900/40 to-pink-900/40 border border-purple-500/30 rounded-2xl p-6">
+    <div class="flex items-center gap-2 mb-2">
+      <span class="text-2xl">⭐</span>
+      <h3 class="font-bold text-lg">Versão PRO</h3>
+    </div>
+    <ul class="text-sm text-gray-300 space-y-1 mb-4">
+      <li>✅ Múltiplos perfis de serviço</li>
+      <li>✅ Gera proposta em PDF</li>
+      <li>✅ Histórico de cálculos</li>
+      <li>✅ Tabela de preços pronta</li>
+    </ul>
+    <a href="COLE_SEU_LINK_DE_PAGAMENTO_AQUI" class="block text-center bg-purple-600 hover:bg-purple-500 font-bold py-3 rounded-xl">
+      Desbloquear por R$19,90/mês
+    </a>
+    <p class="text-xs text-gray-500 text-center mt-2">Cancele quando quiser</p>
+  </div>
+
+  <p class="text-center text-xs text-gray-600 mt-8">
+    PrecificaFácil © 2026 — Feito com 💜
+  </p>
+</section>
+
+<script>
+function calcular() {
+  const custos = parseFloat(document.getElementById('custos').value) || 0;
+  const horas = parseFloat(document.getElementById('horas').value) || 1;
+  const impostos = parseFloat(document.getElementById('impostos').value) || 0;
+  const lucro = parseFloat(document.getElementById('lucro').value) || 0;
+
+  const total = (custos + lucro) / (1 - impostos / 100);
+  const base = total / horas;
+
+  const min = base * 0.85;
+  const ideal = base;
+  const premium = base * 1.4;
+
+  document.getElementById('p_min').textContent = 'R$ ' + min.toFixed(2).replace('.', ',');
+  document.getElementById('p_ideal').textContent = 'R$ ' + ideal.toFixed(2).replace('.', ',');
+  document.getElementById('p_premium').textContent = 'R$ ' + premium.toFixed(2).replace('.', ',');
+
+  document.getElementById('resultado').classList.remove('hidden');
+
+  // Salva histórico
+  const h = JSON.parse(localStorage.getItem('hist') || '[]');
+  h.push({ ideal, data: new Date().toISOString() });
+  localStorage.setItem('hist', JSON.stringify(h.slice(-20)));
+}
+
+function copiar() {
+  const t = `Meu preço ideal por hora: ${document.getElementById('p_ideal').textContent}`;
+  navigator.clipboard.writeText(t);
+  alert('Copiado!');
+}
+</script>
+</body>
+</html>
